@@ -78,7 +78,9 @@ public class LatestNewsServlet extends HttpServlet {
                         "<li><a href=\"/newest?page=1\">Newest</a></li>" +
                         "<li><a href=\"/jobs?page=1\">Jobs</a></li>" +
                         "</ul><br>" +
+                        "<a href=\"#\" class=\"previous\">Previous</a>" +
                         "<div class=\"grid-container\">" + buffer.toString() + "</div>" +
+                        "<a href=\"#\" class=\"next\">Next</a>" +
                         "  <br/>" +
                         "<footer class=\"footer\"><p>Ferenc Jancsár, late16@gmail.com</p></footer>" +
                         "</body>" +

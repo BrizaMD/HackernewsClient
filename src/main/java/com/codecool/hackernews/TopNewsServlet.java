@@ -67,7 +67,6 @@ public class TopNewsServlet extends HttpServlet {
                 "<html>\n" +
                         "  <head>" +
                         "    <title>Top News!</title>" +
-                        "    <script src='/static/js/main.js'></script>" +
                         "    <link rel=\"stylesheet\" type=\"text/css\" href='/static/css/site.css' />" +
                         "  </head>\n" +
                         "<body>\n" +
@@ -77,9 +76,14 @@ public class TopNewsServlet extends HttpServlet {
                         "<li><a href=\"/newest?page=1\">Newest</a></li>" +
                         "<li><a href=\"/jobs?page=1\">Jobs</a></li>" +
                         "</ul><br>" +
+                        "<div class=\"button-container\">" +
+                        "<a href=\"#\" class=\"previous\">Previous</a>" +
+                        "<a href=\"#\" class=\"next\">Next</a>" +
+                        "</div><br>" +
                         "<div class=\"grid-container\">" + buffer.toString() + "</div>" +
                         "  <br/>" +
                         "<footer class=\"footer\"><p>Ferenc Jancsár, late16@gmail.com</p></footer>" +
+                        "    <script src='/static/js/main.js'></script>" +
                         "</body>" +
                         "</html>"
         );
