@@ -10,3 +10,14 @@
     border: 1px solid darkred;
     padding: 3px;
 }
+
+.navbar li{
+    list-style-type: none;
+    float: left;
+}
+
+.navbar li a{
+    display: block;
+    padding: 8px;
+    background-color: #dddddd;
+}
