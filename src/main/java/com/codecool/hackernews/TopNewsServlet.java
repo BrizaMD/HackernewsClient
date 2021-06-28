@@ -65,9 +65,8 @@ public class TopNewsServlet extends HttpServlet {
         String previousButtonId = Integer.parseInt(pageId) == 1 ? "#" : Integer.toString(Integer.parseInt(pageId) - 1);
         String nextButtonId = Integer.parseInt(pageId) >= 1 ? Integer.toString(Integer.parseInt(pageId) + 1) : "#";
 
-        String previousButton = previousButtonId.equals("#") ? "<a class=\"previous\">Previous</a>" :
-                "<a href=\"top?page="+ previousButtonId +"\" class=\"previous\">Previous</a>";
-        String nextButton = "<a href=\"top?page="+ nextButtonId +"\" class=\"next\">Next</a>";
+        String previousButton = "<button class=\"previous\">Previous</button>";
+        String nextButton = "<button class=\"next\">Next</button>";
 
 
         out.println(
