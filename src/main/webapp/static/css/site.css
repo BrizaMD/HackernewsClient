@@ -59,6 +59,7 @@ li a:hover:not(.active){
     border: 1px solid rgba(0, 0, 0, 0.8);
     width: auto;
     padding: 10px;
+    overflow-wrap: anywhere;
 }
 
 .grid-item .title {
@@ -78,7 +79,7 @@ li a:hover:not(.active){
 
 .button-container {
     display: inline-block;
-    width: 900px;
+    width: 980px;
     justify-content: space-between;
 }
 
