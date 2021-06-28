@@ -62,13 +62,17 @@ public class LatestNewsServlet extends HttpServlet {
                 }
         );
 
+        String previousButtonId = Integer.parseInt(pageId) == 1 ? "#" : Integer.toString(Integer.parseInt(pageId) - 1);
+        String nextButtonId = Integer.parseInt(pageId) >= 1 ? Integer.toString(Integer.parseInt(pageId) + 1) : "#";
 
+        String previousButton = previousButtonId.equals("#") ? "<a class=\"previous\">Previous</a>" :
+                "<a href=\"newest?page="+ previousButtonId +"\" class=\"previous\">Previous</a>";
+        String nextButton = "<a href=\"newest?page="+ nextButtonId +"\" class=\"next\">Next</a>";
 
         out.println(
                 "<html>\n" +
                         "  <head>" +
                         "    <title>Latest News!</title>" +
-                        "    <script src='/static/js/main.js'></script>" +
                         "    <link rel=\"stylesheet\" type=\"text/css\" href='/static/css/site.css' />" +
                         "  </head>\n" +
                         "<body>\n" +
@@ -78,9 +82,12 @@ public class LatestNewsServlet extends HttpServlet {
                         "<li><a href=\"/newest?page=1\">Newest</a></li>" +
                         "<li><a href=\"/jobs?page=1\">Jobs</a></li>" +
                         "</ul><br>" +
+                        "<div class=\"button-container\">" + previousButton + nextButton +
+                        "</div><br>" +
                         "<div class=\"grid-container\">" + buffer.toString() + "</div>" +
                         "  <br/>" +
                         "<footer class=\"footer\"><p>Ferenc Jancsár, late16@gmail.com</p></footer>" +
+                        "    <script src='/static/js/main.js'></script>" +
                         "</body>" +
                         "</html>"
         );

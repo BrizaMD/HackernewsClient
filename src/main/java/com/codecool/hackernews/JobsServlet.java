@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@WebServlet(name = "topNewsServlet", urlPatterns = {"/top"}, loadOnStartup = 4)
-public class TopNewsServlet extends HttpServlet {
+@WebServlet(name = "jobsServlet", urlPatterns = {"/jobs"}, loadOnStartup = 4)
+public class JobsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
@@ -29,9 +29,10 @@ public class TopNewsServlet extends HttpServlet {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request1 = null;
 
+
         try {
             request1 = HttpRequest.newBuilder()
-                    .uri(new URI("https://api.hnpwa.com/v0/news/"+pageId+".json"))
+                    .uri(new URI("https://api.hnpwa.com/v0/jobs/"+pageId+".json"))
                     .GET()
                     .build();
         } catch (URISyntaxException e) {
@@ -48,32 +49,32 @@ public class TopNewsServlet extends HttpServlet {
         StringBuffer buffer = new StringBuffer();
 
         postList.forEach(item -> {
-                buffer.append("<div class=\"grid-item\">");
-                buffer.append("Question title:<br><div class=\"title\">");
-                buffer.append(item.title);
-                buffer.append("</div><br>");
-                buffer.append("<div class=\"author\">User: ");
-                buffer.append(item.user);
-                buffer.append("</div>");
-                buffer.append("<div class=\"time-ago\">When: ");
-                buffer.append(item.time_ago);
-                buffer.append("</div>");
-                buffer.append("</div>");
-            }
+                    buffer.append("<div class=\"grid-item\">");
+                    buffer.append("Job title:<br><div class=\"title\">");
+                    buffer.append(item.title);
+                    buffer.append("</div><br>");
+                    buffer.append("<div class=\"time-ago\">When: ");
+                    buffer.append(item.time_ago);
+                    buffer.append("</div>");
+                    buffer.append("<div class=\"job-url\">When: ");
+                    buffer.append(item.url);
+                    buffer.append("</div>");
+                    buffer.append("</div>");
+                }
         );
 
         String previousButtonId = Integer.parseInt(pageId) == 1 ? "#" : Integer.toString(Integer.parseInt(pageId) - 1);
         String nextButtonId = Integer.parseInt(pageId) >= 1 ? Integer.toString(Integer.parseInt(pageId) + 1) : "#";
 
         String previousButton = previousButtonId.equals("#") ? "<a class=\"previous\">Previous</a>" :
-                "<a href=\"top?page="+ previousButtonId +"\" class=\"previous\">Previous</a>";
-        String nextButton = "<a href=\"top?page="+ nextButtonId +"\" class=\"next\">Next</a>";
+                "<a href=\"jobs?page="+ previousButtonId +"\" class=\"previous\">Previous</a>";
+        String nextButton = "<a href=\"jobs?page="+ nextButtonId +"\" class=\"next\">Next</a>";
 
 
         out.println(
                 "<html>\n" +
                         "  <head>" +
-                        "    <title>Top News!</title>" +
+                        "    <title>Best jobs ever right hyaaaa!</title>" +
                         "    <link rel=\"stylesheet\" type=\"text/css\" href='/static/css/site.css' />" +
                         "  </head>\n" +
                         "<body>\n" +

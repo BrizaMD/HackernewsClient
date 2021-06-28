@@ -15,8 +15,6 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // jobs https://api.hnpwa.com/v0/jobs/1.json
-
         PrintWriter out = response.getWriter();
         String title = "Michael Hackson news";
         out.println(
