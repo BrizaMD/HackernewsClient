@@ -56,7 +56,7 @@ public class JobsServlet extends HttpServlet {
                     buffer.append("<div class=\"time-ago\">When: ");
                     buffer.append(item.time_ago);
                     buffer.append("</div>");
-                    buffer.append("<div class=\"job-url\">When: ");
+                    buffer.append("<div class=\"job-url\">URL: ");
                     buffer.append(item.url);
                     buffer.append("</div>");
                     buffer.append("</div>");

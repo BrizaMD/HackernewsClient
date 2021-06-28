@@ -44,6 +44,7 @@ public class LatestNewsServlet extends HttpServlet {
 
         Type listType = new TypeToken<ArrayList<Post>>(){}.getType();
         List<Post> postList = new Gson().fromJson(jsonResponseString, listType);
+        System.out.println(postList.size());
 
         StringBuffer buffer = new StringBuffer();
 
