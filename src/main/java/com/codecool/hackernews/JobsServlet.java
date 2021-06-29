@@ -3,7 +3,6 @@ package com.codecool.hackernews;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +21,9 @@ import java.util.List;
 @WebServlet(name = "jobsServlet", urlPatterns = {"/jobs"}, loadOnStartup = 4)
 public class JobsServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
-        String pageId = request.getParameter("page");
+        String pageId = request.getParameter("page") != null ? request.getParameter("page") : "1";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request1 = null;
@@ -39,7 +38,7 @@ public class JobsServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        var jsonResponseString = client.sendAsync(request1, HttpResponse.BodyHandlers.ofString())
+        String jsonResponseString = client.sendAsync(request1, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .join();
 
@@ -56,37 +55,29 @@ public class JobsServlet extends HttpServlet {
                     buffer.append("<div class=\"time-ago\">When: ");
                     buffer.append(item.time_ago);
                     buffer.append("</div>");
-                    buffer.append("<div class=\"job-url\">When: ");
+                    buffer.append("<div class=\"job-url\">URL: ");
                     buffer.append(item.url);
                     buffer.append("</div>");
                     buffer.append("</div>");
                 }
         );
 
-        String previousButtonId = Integer.parseInt(pageId) == 1 ? "#" : Integer.toString(Integer.parseInt(pageId) - 1);
-        String nextButtonId = Integer.parseInt(pageId) >= 1 ? Integer.toString(Integer.parseInt(pageId) + 1) : "#";
-
-        String previousButton = previousButtonId.equals("#") ? "<a class=\"previous\">Previous</a>" :
-                "<a href=\"jobs?page="+ previousButtonId +"\" class=\"previous\">Previous</a>";
-        String nextButton = "<a href=\"jobs?page="+ nextButtonId +"\" class=\"next\">Next</a>";
-
-
         out.println(
                 "<html>\n" +
                         "  <head>" +
-                        "    <title>Best jobs ever right hyaaaa!</title>" +
+                        "    <title>Best jobs ever!</title>" +
                         "    <link rel=\"stylesheet\" type=\"text/css\" href='/static/css/site.css' />" +
                         "  </head>\n" +
                         "<body>\n" +
                         "<ul class=\"navbar\">" +
-                        "<li><a href=\"/\">Hackson news</a></li>" +
-                        "<li><a href=\"/top?page=1\">Top News</a></li>" +
-                        "<li><a href=\"/newest?page=1\">Newest</a></li>" +
-                        "<li><a href=\"/jobs?page=1\">Jobs</a></li>" +
+                        "<li><a id=\"pager\" href=\"/\" data-page=\"1\">Hackson news</a></li>" +
+                        "<li><a href=\"/top\">Top News</a></li>" +
+                        "<li><a href=\"/newest\">Newest</a></li>" +
+                        "<li><a href=\"/jobs\">Jobs</a></li>" +
                         "</ul><br>" +
-                        "<div class=\"button-container\">" + previousButton + nextButton +
+                        "<div class=\"button-container\">" + "<button class=\"previous\">Previous</button>" + "<button class=\"next\">Next</button>" +
                         "</div><br>" +
-                        "<div class=\"grid-container\">" + buffer.toString() + "</div>" +
+                        "<div class=\"grid-container\">" + buffer + "</div>" +
                         "  <br/>" +
                         "<footer class=\"footer\"><p>Ferenc Jancsár, late16@gmail.com</p></footer>" +
                         "    <script src='/static/js/main.js'></script>" +
