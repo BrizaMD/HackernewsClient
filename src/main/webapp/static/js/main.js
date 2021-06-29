@@ -1,17 +1,21 @@
 function start(){
     let url = String(window.location.href);
-    let urlPart = Array.from(url.split("="))[0];
     let currentPage = Array.from(Array.from(url.split("/"))[3].split("?"))[0];
     if (currentPage === "top"){
         currentPage = "news";
     }
-    let currentPageNumber = parseInt(Array.from(Array.from(url.split("/"))[3].split("?"))[1].split("=")[1]);
+
+    let pager = document.getElementById("pager");
+    let currentPageNumber = parseInt(pager.dataset.page);
     let fetchUrl = "";
 
     let prevButton = document.getElementsByClassName("previous")[0];
     prevButton.addEventListener("click", () => {
         if (currentPageNumber > 1){
+            let pager = document.getElementById("pager");
+            let currentPageNumber = parseInt(pager.dataset.page);
             fetchUrl = "https://api.hnpwa.com/v0/"+ currentPage +"/"+(currentPageNumber-1)+".json";
+            pager.dataset.page = String(currentPageNumber-1);
             fetchPage(fetchUrl);
         }
     });
@@ -19,7 +23,10 @@ function start(){
     let nextButton = document.getElementsByClassName("next")[0];
     nextButton.addEventListener("click", () => {
         if (currentPageNumber < 10){
+            let pager = document.getElementById("pager");
+            let currentPageNumber = parseInt(pager.dataset.page);
             fetchUrl = "https://api.hnpwa.com/v0/"+ currentPage +"/"+(currentPageNumber+1)+".json";
+            pager.dataset.page = String(currentPageNumber+1);
             fetchPage(fetchUrl);
         }
     });
@@ -36,36 +43,22 @@ async function fetchPage(fetchUrl){
     await changeContainer(data);
 }
 
-// buffer.append("<div class=\"grid-item\">");
-// buffer.append("Question title:<br><div class=\"title\">");
-// buffer.append(item.title);
-// buffer.append("</div><br>");
-// buffer.append("<div class=\"author\">User: ");
-// buffer.append(item.user);
-// buffer.append("</div>");
-// buffer.append("<div class=\"time-ago\">When: ");
-// buffer.append(item.time_ago);
-// buffer.append("</div>");
-// buffer.append("</div>");
-
-
 function changeContainer(data){
     let gridContainer = document.getElementsByClassName("grid-container")[0];
     let gridString = "";
     console.log(data);
     data.forEach(entry =>{
-        gridString +=`
+        gridString +=
+            `
             <div class="grid-item">Question title:<br>
             <div class="title">${entry.title}</div>
             <br>
             <div class="author">User: ${entry.user}</div>
             <div class="time-ago">When: ${entry.time_ago}</div></div>
-        `;
-
-    gridContainer.innerHTML = gridString;
-    })
-
-    //gridContainer.innerHTML = "";
+            `;
+        gridContainer.innerHTML = gridString;
+        }
+    )
 
 }
 

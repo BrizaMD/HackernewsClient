@@ -3,7 +3,6 @@ package com.codecool.hackernews;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +21,9 @@ import java.util.List;
 @WebServlet(name = "topNewsServlet", urlPatterns = {"/top"}, loadOnStartup = 4)
 public class TopNewsServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
-        String pageId = request.getParameter("page");
+        String pageId = request.getParameter("page") != null ? request.getParameter("page") : "1";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request1 = null;
@@ -38,7 +37,7 @@ public class TopNewsServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        var jsonResponseString = client.sendAsync(request1, HttpResponse.BodyHandlers.ofString())
+        String jsonResponseString = client.sendAsync(request1, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .join();
 
@@ -62,13 +61,6 @@ public class TopNewsServlet extends HttpServlet {
             }
         );
 
-        String previousButtonId = Integer.parseInt(pageId) == 1 ? "#" : Integer.toString(Integer.parseInt(pageId) - 1);
-        String nextButtonId = Integer.parseInt(pageId) >= 1 ? Integer.toString(Integer.parseInt(pageId) + 1) : "#";
-
-        String previousButton = "<button class=\"previous\">Previous</button>";
-        String nextButton = "<button class=\"next\">Next</button>";
-
-
         out.println(
                 "<html>\n" +
                         "  <head>" +
@@ -77,14 +69,14 @@ public class TopNewsServlet extends HttpServlet {
                         "  </head>\n" +
                         "<body>\n" +
                         "<ul class=\"navbar\">" +
-                        "<li><a href=\"/\">Hackson news</a></li>" +
-                        "<li><a href=\"/top?page=1\">Top News</a></li>" +
-                        "<li><a href=\"/newest?page=1\">Newest</a></li>" +
-                        "<li><a href=\"/jobs?page=1\">Jobs</a></li>" +
+                        "<li><a id=\"pager\" href=\"/\" data-page=\"1\">Hackson news</a></li>" +
+                        "<li><a href=\"/top\">Top News</a></li>" +
+                        "<li><a href=\"/newest\">Newest</a></li>" +
+                        "<li><a href=\"/jobs\">Jobs</a></li>" +
                         "</ul><br>" +
-                        "<div class=\"button-container\">" + previousButton + nextButton +
+                        "<div class=\"button-container\">" + "<button class=\"previous\">Previous</button>" + "<button class=\"next\">Next</button>" +
                         "</div><br>" +
-                        "<div class=\"grid-container\">" + buffer.toString() + "</div>" +
+                        "<div class=\"grid-container\">" + buffer + "</div>" +
                         "  <br/>" +
                         "<footer class=\"footer\"><p>Ferenc Jancsár, late16@gmail.com</p></footer>" +
                         "    <script src='/static/js/main.js'></script>" +
